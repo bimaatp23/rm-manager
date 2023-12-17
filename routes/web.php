@@ -14,4 +14,5 @@ use App\Http\Controllers\MasterController;
 |
 */
 
+Route::get('/login', [MasterController::class, 'login'])->name('login');
 Route::get('/', [MasterController::class, 'dashboard'])->name('dashboard');

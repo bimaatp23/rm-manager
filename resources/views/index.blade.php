@@ -16,12 +16,28 @@
             </div>
             <div class="flex flex-col">
                 <ul>
-                    <a href="/"><li class="hover:bg-green-600 @if(request()->is('/')) bg-green-600 @endif px-4 py-2 text-lg">Dashboard</li></a>
-                    <a href="#"><li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">Users</li></a>
-                    <a href="#"><li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">Settings</li></a>
+                    <a href="/">
+                        <li class="hover:bg-green-600 @if(request()->is('/')) bg-green-600 @endif px-4 py-2 text-lg">
+                            Dashboard
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">
+                            Users
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">
+                            Settings
+                        </li>
+                    </a>
                 </ul>
                 <ul class="absolute bottom-0">
-                    <a href="#"><li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">Logout</li></a>
+                    <a href="#">
+                        <li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">
+                            Logout
+                        </li>
+                    </a>
                 </ul>
             </div>
         </div>
