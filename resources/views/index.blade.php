@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Dashboard')</title>
+    <title>@yield("title", "Admin Dashboard")</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    @yield("style")
 </head>
 
 <body class="font-sans">
@@ -16,25 +17,20 @@
             </div>
             <div class="flex flex-col">
                 <ul>
-                    <a href="/">
-                        <li class="hover:bg-green-600 @if(request()->is('/')) bg-green-600 @endif px-4 py-2 text-lg">
+                    <a href="{{route("dashboard")}}">
+                        <li class="hover:bg-green-600 {{request()->route()->getName() === "dashboard" ? "bg-green-600" : ""}} px-4 py-2 text-lg">
                             Dashboard
                         </li>
                     </a>
-                    <a href="#">
-                        <li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">
-                            Users
-                        </li>
-                    </a>
-                    <a href="#">
-                        <li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">
-                            Settings
+                    <a href="{{route("rekamMedis")}}">
+                        <li class="hover:bg-green-600 {{request()->route()->getName() === "rekamMedis" ? "bg-green-600" : ""}} px-4 py-2 text-lg">
+                            Rekam Medis
                         </li>
                     </a>
                 </ul>
-                <ul class="absolute bottom-0">
+                <ul class="absolute bottom-0 w-full">
                     <a href="{{route("logout")}}">
-                        <li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">
+                        <li class="hover:bg-green-600 px-4 py-2 text-lg">
                             Logout
                         </li>
                     </a>
@@ -48,7 +44,8 @@
                 </div>
             </header>
             <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 ml-64">
-                @yield('content')
+                <h1 class="text-2xl font-semibold text-green-800 mb-2">@yield("title", "Admin Dashboard")</h1>
+                @yield("content")
             </main>
         </div>
     </div>

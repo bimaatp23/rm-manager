@@ -20,4 +20,8 @@ Route::get("/logout", [MasterController::class, "logout"])->name("logout");
 
 Route::middleware(["auth.redirect"])->group(function () {
     Route::get("/", [MasterController::class, "dashboard"])->name("dashboard");
+    Route::get("/rekam-medis", [MasterController::class, "rekamMedis"])->name("rekamMedis");
+    Route::post("/rekam-medis", [MasterController::class, "createRekamMedis"])->name("createRekamMedis");
+    Route::put("/rekam-medis", [MasterController::class, "updateRekamMedis"])->name("updateRekamMedis");
+    Route::delete("/rekam-medis", [MasterController::class, "deleteRekamMedis"])->name("deleteRekamMedis");
 });
