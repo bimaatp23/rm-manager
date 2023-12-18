@@ -14,5 +14,10 @@ use App\Http\Controllers\MasterController;
 |
 */
 
-Route::get('/login', [MasterController::class, 'login'])->name('login');
-Route::get('/', [MasterController::class, 'dashboard'])->name('dashboard');
+Route::get("/login", [MasterController::class, "login"])->name("login");
+Route::post("/login", [MasterController::class, "authenticate"])->name("authenticate");
+Route::get("/logout", [MasterController::class, "logout"])->name("logout");
+
+Route::middleware(["auth.redirect"])->group(function () {
+    Route::get("/", [MasterController::class, "dashboard"])->name("dashboard");
+});

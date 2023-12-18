@@ -33,7 +33,7 @@
                     </a>
                 </ul>
                 <ul class="absolute bottom-0">
-                    <a href="#">
+                    <a href="{{route("logout")}}">
                         <li class="hover:bg-green-600 @if(request()->is('#')) bg-green-600 @endif px-4 py-2 text-lg">
                             Logout
                         </li>
@@ -44,7 +44,7 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             <header class="bg-green-500 text-white flex h-14 align-middle justify-end pr-4 w-full">
                 <div class="flex items-center justify-end">
-                    <span class="mr-2 font-bold">John Doe</span>
+                    <span class="mr-2 font-bold">{{$current->nama}}</span>
                 </div>
             </header>
             <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 ml-64">
