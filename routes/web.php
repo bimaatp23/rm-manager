@@ -24,4 +24,8 @@ Route::middleware(["auth.redirect"])->group(function () {
     Route::post("/rekam-medis", [MasterController::class, "createRekamMedis"])->name("createRekamMedis");
     Route::put("/rekam-medis", [MasterController::class, "updateRekamMedis"])->name("updateRekamMedis");
     Route::delete("/rekam-medis", [MasterController::class, "deleteRekamMedis"])->name("deleteRekamMedis");
+    Route::get("/peminjaman", [MasterController::class, "peminjaman"])->name("peminjaman");
+    Route::post("/peminjaman", [MasterController::class, "createPeminjaman"])->name("createPeminjaman");
+    Route::put("/peminjaman", [MasterController::class, "updatePeminjaman"])->name("updatePeminjaman");
+    Route::delete("/peminjaman", [MasterController::class, "deletePeminjaman"])->name("deletePeminjaman");
 });

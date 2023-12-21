@@ -16,10 +16,14 @@ class Peminjaman extends Migration
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_rekam_medis')->constrained('rekam_medis');
-            $table->string('dipinjam_oleh');
-            $table->timestamp('tanggal_peminjaman');
+            $table->string('nama_peminjam');
+            $table->string('kontak_peminjam');
+            $table->enum('keperluan', ['Rawat Inap', 'Rawat Jalan']);
+            $table->string('keterangan')->nullable();
+            $table->timestamp('tanggal_peminjaman')->nullable();
+            $table->timestamp('reminder_pengembalian')->nullable();
             $table->timestamp('tanggal_pengembalian')->nullable();
-            $table->enum('status', ['Dipinjam', 'Dikembalikan']);
+            $table->integer('reminder');
         });
     }
 

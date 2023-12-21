@@ -32,6 +32,7 @@
             <div class="mb-2">
                 <label for="jenis_kelamin" class="block text-sm font-medium text-gray-600">Jenis Kelamin:</label>
                 <select name="jenis_kelamin" class="form-select border border-gray-500 rounded mt-1 block w-full" required>
+                    <option value=""></option>
                     <option value="0">Tidak diketahui</option>
                     <option value="1">Laki-laki</option>
                     <option value="2">Perempuan</option>
@@ -88,12 +89,14 @@
                         >
                             Edit
                         </button>
+                        @if ($data->status_pemakaian == 0)
                         <button
                             class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mb-2"
                             onclick="openDeleteModal({{json_encode($data)}})"
                         >
                             Hapus
                         </button>
+                        @endif
                     </div>
                 </td>
             </tr>
@@ -125,6 +128,7 @@
             <div class="mb-2">
                 <label for="jenis_kelamin" class="block text-sm font-medium text-gray-600">Jenis Kelamin:</label>
                 <select name="jenis_kelamin" class="form-select border border-gray-500 rounded mt-1 block w-full" required>
+                    <option value=""></option>
                     <option value="0">Tidak diketahui</option>
                     <option value="1">Laki-laki</option>
                     <option value="2">Perempuan</option>
@@ -148,11 +152,11 @@
 </div>
 <div id="deleteModal" class="hidden fixed inset-0 overflow-auto bg-black bg-opacity-40 p-16">
     <div class="bg-white mx-auto my-5 p-4 border border-gray-300 w-96 rounded">
-        <form action="#" method="post">
+        <form action="{{route("deleteRekamMedis")}}" method="post">
             @csrf
             @method("delete")
             <input type="text" name="id" id="delete_id" class="hidden">
-            <p class="font-bold mb-4">Yakin hapus data ini ? </p>
+            <p class="font-bold mb-4 text-center">Yakin hapus rekam medis ini ? </p>
             <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded w-full">
                 Hapus
             </button>

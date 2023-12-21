@@ -47,7 +47,7 @@ class MasterController extends Controller
                     ->where("username", $credentials["username"])
                     ->where("password", $credentials["password"])
                     ->get();
-        if (count($users) === 0) {
+        if (count($users) == 0) {
             Session::flush();
             return back();
         } else {
@@ -70,9 +70,15 @@ class MasterController extends Controller
 
     public function rekamMedis() {
         $current = $this->current();
+        $peminjaman = DB::table("peminjaman")->get();
         $rekamMedisData = DB::table("rekam_medis")->get();
-        $rekamMedisData->transform(function ($item) {
+        $rekamMedisData->transform(function ($item) use ($peminjaman) {
             $item->jenis_kelamin = $this->jenisKelamin($item->jenis_kelamin);
+            if (in_array($item->id, $peminjaman->pluck("id_rekam_medis")->toArray())) {
+                $item->status_pemakaian = 1;
+            } else {
+                $item->status_pemakaian = 0;
+            }
             return $item;
         });
         return view("rekamMedis", compact("current", "rekamMedisData"));
@@ -109,6 +115,53 @@ class MasterController extends Controller
 
     public function deleteRekamMedis(Request $request) {
         DB::table("rekam_medis")
+            ->where("id", $request->id)
+            ->delete();
+        return back();
+    }
+
+    public function peminjaman() {
+        $current = $this->current();
+        $peminjaman = DB::table("peminjaman")
+                            ->orderBy("tanggal_peminjaman", "DESC")
+                            ->get();
+        $peminjamanData = $peminjaman->whereNull("tanggal_pengembalian")->concat($peminjaman->whereNotNull("tanggal_pengembalian"));
+        $rekamMedisData = DB::table("rekam_medis")
+                            ->whereNotIn("id", $peminjaman->whereNull("tanggal_pengembalian")->pluck("id_rekam_medis")->toArray())
+                            ->get();
+        return view("peminjaman", compact("current", "peminjamanData", "rekamMedisData"));
+    }
+
+    public function createPeminjaman(Request $request) {
+        $timestampNow = date("Y-m-d H:i:s");
+        $timestampTomorrow = date("Y-m-d H:i:s", strtotime("+1 day"));
+        $timestampTomorrowNext = date("Y-m-d H:i:s", strtotime("+2 days"));
+        DB::table("peminjaman")
+            ->insert([
+                "id_rekam_medis" => $request->id_rekam_medis,
+                "nama_peminjam" => $request->nama_peminjam,
+                "kontak_peminjam" => $request->kontak_peminjam,
+                "keperluan" => $request->keperluan,
+                "keterangan" => $request->keterangan,
+                "tanggal_peminjaman" => $timestampNow,
+                "reminder_pengembalian" => $request->keperluan == "Rawat Inap" ? $timestampTomorrowNext : $timestampTomorrow,
+                "reminder" => 0
+            ]);
+        return back();
+    }
+
+    public function updatePeminjaman(Request $request) {
+        $timestampNow = date("Y-m-d H:i:s");
+        DB::table("peminjaman")
+            ->where("id", $request->id)
+            ->update([
+                "tanggal_pengembalian" => $timestampNow
+            ]);
+        return back();
+    }
+
+    public function deletePeminjaman(Request $request) {
+        DB::table("peminjaman")
             ->where("id", $request->id)
             ->delete();
         return back();
