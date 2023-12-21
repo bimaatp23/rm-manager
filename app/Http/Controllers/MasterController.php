@@ -144,7 +144,7 @@ class MasterController extends Controller
                 "keperluan" => $request->keperluan,
                 "keterangan" => $request->keterangan,
                 "tanggal_peminjaman" => $timestampNow,
-                "reminder_pengembalian" => $request->keperluan == "Rawat Inap" ? $timestampTomorrowNext : $timestampTomorrow,
+                "batas_pengembalian" => $request->keperluan == "Rawat Inap" ? $timestampTomorrowNext : $timestampTomorrow,
                 "reminder" => 0
             ]);
         return back();

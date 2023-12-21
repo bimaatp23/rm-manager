@@ -21,7 +21,7 @@ class Peminjaman extends Migration
             $table->enum('keperluan', ['Rawat Inap', 'Rawat Jalan']);
             $table->string('keterangan')->nullable();
             $table->timestamp('tanggal_peminjaman')->nullable();
-            $table->timestamp('reminder_pengembalian')->nullable();
+            $table->timestamp('batas_pengembalian')->nullable();
             $table->timestamp('tanggal_pengembalian')->nullable();
             $table->integer('reminder');
         });

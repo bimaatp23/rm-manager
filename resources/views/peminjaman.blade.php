@@ -58,6 +58,7 @@
             <th class="border border-gray-300 px-4 py-2">Keperluan</th>
             <th class="border border-gray-300 px-4 py-2">Keterangan</th>
             <th class="border border-gray-300 px-4 py-2">Tanggal Peminjaman</th>
+            <th class="border border-gray-300 px-4 py-2">Batas Pengembalian</th>
             <th class="border border-gray-300 px-4 py-2">Tanggal Pengembalian</th>
             <th class="border border-gray-300 px-4 py-2">Reminder</th>
             <th class="border border-gray-300 px-4 py-2">Action</th>
@@ -73,6 +74,7 @@
                 <td class="border border-gray-300 px-4 py-2">{{$data->keperluan}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$data->keterangan}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$data->tanggal_peminjaman}}</td>
+                <td class="border border-gray-300 px-4 py-2">{{$data->batas_pengembalian}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$data->tanggal_pengembalian}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$data->reminder == 0 ? "No" : "Yes"}}</td>
                 <td class="border border-gray-300 px-4 py-2">
