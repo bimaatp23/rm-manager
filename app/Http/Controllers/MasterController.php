@@ -261,4 +261,46 @@ class MasterController extends Controller
             ->delete();
         return back();
     }
+
+    public function petugas() {
+        $current = $this->current();
+        $petugasData = DB::table("users")
+                        ->where("role", "Petugas RM")
+                        ->get();
+        return view("petugas", compact("current", "petugasData"));
+    }
+
+    public function createPetugas(Request $request) {
+        $petugasData = DB::table("users")
+                        ->where("username", $request->username)
+                        ->get();
+        if (count($petugasData) === 0) {
+            DB::table("users")
+                ->insert([
+                    "nama" => $request->nama,
+                    "username" => $request->username,
+                    "role" => "Petugas RM",
+                    "password" => "simpepe"
+                ]);
+        }
+        return back();
+    }
+
+    public function updatePetugas(Request $request) {
+        DB::table("users")
+            ->where("id", $request->id)
+            ->update([
+                "nama" => $request->nama,
+                "username" => $request->username,
+                "role" => "Petugas RM"
+            ]);
+        return back();
+    }
+
+    public function deletePetugas(Request $request) {
+        DB::table("users")
+            ->where("id", $request->id)
+            ->delete();
+        return back();
+    }
 }

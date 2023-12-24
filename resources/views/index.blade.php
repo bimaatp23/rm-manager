@@ -38,6 +38,11 @@
                             Dokter
                         </li>
                     </a>
+                    <a href="{{route("petugas")}}">
+                        <li class="hover:bg-green-600 {{request()->route()->getName() === "petugas" ? "bg-green-600" : ""}} px-4 py-2 text-lg">
+                            Petugas
+                        </li>
+                    </a>
                     @endif
                 </ul>
                 <ul class="absolute bottom-0 w-full">
