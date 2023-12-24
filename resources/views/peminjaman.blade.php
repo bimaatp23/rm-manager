@@ -171,6 +171,8 @@
             closeEditModal()
         } else if (event.target === document.getElementById("deleteModal")) {
             closeDeleteModal()
+        } else if (event.target === document.getElementById("changePasswordModal")) {
+            closeChangePasswordModal()
         }
     }
 </script>

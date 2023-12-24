@@ -10,6 +10,30 @@
 </head>
 
 <body class="font-sans">
+    <div id="changePasswordModal" class="hidden fixed inset-0 overflow-auto bg-black bg-opacity-40 p-16">
+        <div class="bg-white mx-auto my-5 p-4 border border-gray-300 w-96 rounded">
+            <form action="{{route("changePassword")}}" method="post">
+                @csrf
+                @method("put")
+                <input type="text" name="username" value="{{$current->username}}" class="hidden">
+                <div class="mb-2">
+                    <label for="password" class="block text-sm font-medium text-gray-600">Password Lama:</label>
+                    <input type="password" name="password" class="form-input border border-gray-500 rounded mt-1 block w-full" required>
+                </div>
+                <div class="mb-2">
+                    <label for="password" class="block text-sm font-medium text-gray-600">Password Baru:</label>
+                    <input type="password" name="new_password" class="form-input border border-gray-500 rounded mt-1 block w-full" required>
+                </div>
+                <div class="mb-2">
+                    <label for="password" class="block text-sm font-medium text-gray-600">Ulangi Password Baru:</label>
+                    <input type="password" name="renew_password" class="form-input border border-gray-500 rounded mt-1 block w-full" required>
+                </div>
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">
+                    Simpan
+                </button>
+            </form>
+        </div>
+    </div>
     <div class="flex h-screen">
         <div class="fixed flex flex-col bg-green-500 text-white w-64 h-full">
             <div class="w-full flex align-middle justify-center h-14">
@@ -46,6 +70,11 @@
                     @endif
                 </ul>
                 <ul class="absolute bottom-0 w-full">
+                    <a href="#" onclick="openChangePasswordModal()">
+                        <li class="hover:bg-green-600 px-4 py-2 text-lg">
+                            Change Password
+                        </li>
+                    </a>
                     <a href="{{route("logout")}}">
                         <li class="hover:bg-green-600 px-4 py-2 text-lg">
                             Logout
@@ -66,6 +95,17 @@
             </main>
         </div>
     </div>
+    <script>
+        function openChangePasswordModal() {
+            document.getElementById("changePasswordModal").classList.add("block")
+            document.getElementById("changePasswordModal").classList.remove("hidden")
+        }
+
+        function closeChangePasswordModal() {
+            document.getElementById("changePasswordModal").classList.remove("block")
+            document.getElementById("changePasswordModal").classList.add("hidden")
+        }
+    </script>
 </body>
 
 </html>

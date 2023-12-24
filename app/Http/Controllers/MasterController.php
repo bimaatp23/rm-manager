@@ -303,4 +303,23 @@ class MasterController extends Controller
             ->delete();
         return back();
     }
+
+    public function changePassword(Request $request) {
+        $usersData = DB::table("users")
+                        ->where("username", $request->username)
+                        ->where("password", $request->password)
+                        ->get();
+        if (count($usersData) == 0) {
+            return back();
+        } else if ($request->new_password != $request->renew_password) {
+            return back();
+        } else {
+            DB::table("users")
+                ->where("username", $request->username)
+                ->update([
+                    "password" => $request->new_password
+                ]);
+            return redirect()->route("logout");
+        }
+    }
 }

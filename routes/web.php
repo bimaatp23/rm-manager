@@ -40,4 +40,5 @@ Route::middleware(["auth.redirect"])->group(function () {
     Route::post("/petugas", [MasterController::class, "createPetugas"])->name("createPetugas");
     Route::put("/petugas", [MasterController::class, "updatePetugas"])->name("updatePetugas");
     Route::delete("/petugas", [MasterController::class, "deletePetugas"])->name("deletePetugas");
+    Route::put("/change-password", [MasterController::class, "changePassword"])->name("changePassword");
 });
