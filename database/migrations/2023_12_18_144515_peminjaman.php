@@ -24,6 +24,11 @@ class Peminjaman extends Migration
             $table->timestamp('batas_pengembalian')->nullable();
             $table->timestamp('tanggal_pengembalian')->nullable();
             $table->integer('reminder');
+            $table->string('author')->nullable();
+            $table->foreign('author')
+                ->references('username')
+                ->on('users')
+                ->onDelete('set null');
         });
     }
 

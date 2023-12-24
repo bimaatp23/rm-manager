@@ -22,6 +22,11 @@ class RekamMedis extends Migration
             $table->integer('jenis_kelamin');
             $table->string('alamat');
             $table->string('nomor_kontak');
+            $table->string('author')->nullable();
+            $table->foreign('author')
+                ->references('username')
+                ->on('users')
+                ->onDelete('set null');
         });
     }
 

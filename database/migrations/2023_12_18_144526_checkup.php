@@ -16,7 +16,7 @@ class Checkup extends Migration
         Schema::create('checkup', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_rekam_medis')->constrained('rekam_medis');
-            $table->string('nama_dokter');
+            $table->foreignId('id_dokter')->constrained('dokter');
             $table->text('diagnosis');
             $table->text('resep');
             $table->date('tanggal');
