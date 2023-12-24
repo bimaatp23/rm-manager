@@ -33,7 +33,8 @@ class MasterController extends Controller
     function current() {
         return $this->toObject([
             "nama" => Session::get("nama")[0],
-            "username" => Session::get("username")[0]
+            "username" => Session::get("username")[0],
+            "role" => Session::get("role")[0]
         ]);
     }
 
@@ -54,6 +55,7 @@ class MasterController extends Controller
             Session::push("isLogin", true);
             Session::push("nama", $users[0]->nama);
             Session::push("username", $users[0]->username);
+            Session::push("role", $users[0]->role);
             return redirect()->route("dashboard");
         }
     }

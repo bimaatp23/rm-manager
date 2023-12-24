@@ -12,7 +12,7 @@
     <div class="flex bg-green-500 items-center justify-center h-screen">
         <div class="flex w-full">
             <div class="flex-1 bg-green-500 text-white p-8">
-                <h2 class="text-2xl font-semibold mb-4 text-center">SIMPEDE</h2>
+                <h2 class="text-2xl font-semibold mb-4 text-center">SIMPEPE</h2>
             </div>
             <div class="flex-1 text-white p-8">
                 <h2 class="text-2xl font-semibold mb-4">Login</h2>

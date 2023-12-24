@@ -3,12 +3,14 @@
 @section("title", "Checkup ($rekamMedisData->nama_pasien)")
 
 @section("content")
+@if ($current->role == "Petugas RM")
 <button
     class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-2"
     onclick="openAddModal()"
 >
     Tambah
 </button>
+@endif
 <div id="addModal" class="hidden fixed inset-0 overflow-auto bg-black bg-opacity-40 p-16">
     <div class="bg-white mx-auto my-5 p-4 border border-gray-300 w-96 rounded">
         <form action="{{route("createCheckup", ["idRekamMedis" => $idRekamMedis])}}" method="post">
@@ -48,7 +50,9 @@
             <th class="border border-gray-300 px-4 py-2">Diagnosis</th>
             <th class="border border-gray-300 px-4 py-2">Resep</th>
             <th class="border border-gray-300 px-4 py-2">Tanggal</th>
+            @if ($current->role == "Petugas RM")
             <th class="border border-gray-300 px-4 py-2">Action</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -59,6 +63,7 @@
                 <td class="border border-gray-300 px-4 py-2">{{$data->diagnosis}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$data->resep}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$data->tanggal}}</td>
+                @if ($current->role == "Petugas RM")
                 <td class="border border-gray-300 px-4 py-2">
                     <div class="flex space-x-2">
                         <button
@@ -75,6 +80,7 @@
                         </button>
                     </div>
                 </td>
+                @endif
             </tr>
         @endforeach
     </tbody>

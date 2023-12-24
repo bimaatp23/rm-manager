@@ -3,12 +3,14 @@
 @section("title", "Rekam Medis")
 
 @section("content")
+@if ($current->role == "Petugas RM")
 <button
     class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-2"
     onclick="openAddModal()"
 >
     Tambah
 </button>
+@endif
 <div id="addModal" class="hidden fixed inset-0 overflow-auto bg-black bg-opacity-40 p-16">
     <div class="bg-white mx-auto my-5 p-4 border border-gray-300 w-96 rounded">
         <form action="{{route("createRekamMedis")}}" method="post">
@@ -87,6 +89,7 @@
                             href="{{route("checkup", ["idRekamMedis" => $data->id])}}">
                             Checkup
                         </a>
+                        @if ($current->role == "Petugas RM")
                         <button
                             class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-2"
                             onclick="openEditModal({{json_encode($data)}})"
@@ -100,6 +103,7 @@
                         >
                             Hapus
                         </button>
+                        @endif
                         @endif
                     </div>
                 </td>

@@ -17,6 +17,7 @@ class Users extends Migration
             $table->id();
             $table->string('nama');
             $table->string('username')->unique();
+            $table->enum('role', ['Kepala Puskesmas', 'Petugas RM']);
             $table->string('password');
         });
     }

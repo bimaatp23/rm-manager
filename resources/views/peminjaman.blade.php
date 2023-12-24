@@ -3,12 +3,14 @@
 @section("title", "Peminjaman")
 
 @section("content")
+@if ($current->role == "Petugas RM")
 <button
     class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-2"
     onclick="openAddModal()"
 >
     Tambah
 </button>
+@endif
 <div id="addModal" class="hidden fixed inset-0 overflow-auto bg-black bg-opacity-40 p-16">
     <div class="bg-white mx-auto my-5 p-4 border border-gray-300 w-96 rounded">
         <form action="{{route("createPeminjaman")}}" method="post">
@@ -61,7 +63,9 @@
             <th class="border border-gray-300 px-4 py-2">Batas Pengembalian</th>
             <th class="border border-gray-300 px-4 py-2">Tanggal Pengembalian</th>
             <th class="border border-gray-300 px-4 py-2">Reminder</th>
+            @if ($current->role == "Petugas RM")
             <th class="border border-gray-300 px-4 py-2">Action</th>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -77,6 +81,7 @@
                 <td class="border border-gray-300 px-4 py-2">{{$data->batas_pengembalian}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$data->tanggal_pengembalian}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$data->reminder == 0 ? "No" : "Yes"}}</td>
+                @if ($current->role == "Petugas RM")
                 <td class="border border-gray-300 px-4 py-2">
                     <div class="flex space-x-2">
                         @if ($data->tanggal_pengembalian == NULL)
@@ -95,6 +100,7 @@
                         @endif
                     </div>
                 </td>
+                @endif
             </tr>
         @endforeach
     </tbody>

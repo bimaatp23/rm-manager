@@ -13,7 +13,7 @@
     <div class="flex h-screen">
         <div class="fixed flex flex-col bg-green-500 text-white w-64 h-full">
             <div class="w-full flex align-middle justify-center h-14">
-                <h2 class="text-xl font-semibold p-4">SIMPEDE</h2>
+                <h2 class="text-xl font-semibold p-4">SIMPEPE</h2>
             </div>
             <div class="flex flex-col">
                 <ul>
@@ -32,11 +32,13 @@
                             Peminjaman
                         </li>
                     </a>
+                    @if ($current->role == "Kepala Puskesmas")
                     <a href="{{route("dokter")}}">
                         <li class="hover:bg-green-600 {{request()->route()->getName() === "dokter" ? "bg-green-600" : ""}} px-4 py-2 text-lg">
                             Dokter
                         </li>
                     </a>
+                    @endif
                 </ul>
                 <ul class="absolute bottom-0 w-full">
                     <a href="{{route("logout")}}">
@@ -50,10 +52,10 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             <header class="bg-green-500 text-white flex h-14 align-middle justify-end pr-4 w-full">
                 <div class="flex items-center justify-end">
-                    <span class="mr-2 font-bold">{{$current->nama}}</span>
+                    <span class="mr-2 font-bold">{{$current->nama}} ({{$current->role}})</span>
                 </div>
             </header>
-            <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 ml-64">
+            <main class="flex-1 overflow-auto p-4 ml-64">
                 <h1 class="text-2xl font-semibold text-green-800 mb-2">@yield("title", "Admin Dashboard")</h1>
                 @yield("content")
             </main>
