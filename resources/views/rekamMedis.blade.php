@@ -83,6 +83,10 @@
                 <td class="border border-gray-300 px-4 py-2">{{$data->nomor_kontak}}</td>
                 <td class="border border-gray-300 px-4 py-2">
                     <div class="flex space-x-2">
+                        <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-2"
+                            href="{{route("checkup", ["idRekamMedis" => $data->id])}}">
+                            Checkup
+                        </a>
                         <button
                             class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-2"
                             onclick="openEditModal({{json_encode($data)}})"

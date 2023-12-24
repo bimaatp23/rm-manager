@@ -121,6 +121,52 @@ class MasterController extends Controller
         return back();
     }
 
+    public function checkup($idRekamMedis) {
+        $current = $this->current();
+        $checkupData = DB::table("checkup")
+                        ->join("dokter", "checkup.id_dokter", "=", "dokter.id")
+                        ->select("checkup.*", "dokter.nama as nama_dokter")
+                        ->where("id_rekam_medis", $idRekamMedis)
+                        ->get();
+        $rekamMedisData = DB::table("rekam_medis")
+                            ->where("id", $idRekamMedis)
+                            ->first();
+        $dokterData = DB::table("dokter")->get();
+        return view("checkup", compact("current", "checkupData", "rekamMedisData", "dokterData", "idRekamMedis"));
+    }
+
+    public function createCheckup(Request $request, $idRekamMedis) {
+        DB::table("checkup")
+            ->insert([
+                "id_dokter" => $request->id_dokter,
+                "id_rekam_medis" => $idRekamMedis,
+                "diagnosis" => $request->diagnosis,
+                "resep" => $request->resep,
+                "tanggal" => $request->tanggal
+            ]);
+        return back();
+    }
+
+    public function updateCheckup(Request $request, $idRekamMedis) {
+        DB::table("checkup")
+            ->where("id", $request->id)
+            ->update([
+                "id_dokter" => $request->id_dokter,
+                "id_rekam_medis" => $idRekamMedis,
+                "diagnosis" => $request->diagnosis,
+                "resep" => $request->resep,
+                "tanggal" => $request->tanggal
+            ]);
+        return back();
+    }
+
+    public function deleteCheckup(Request $request, $idRekamMedis) {
+        DB::table("checkup")
+            ->where("id", $request->id)
+            ->delete();
+        return back();
+    }
+
     public function peminjaman() {
         $current = $this->current();
         $peminjaman = DB::table("peminjaman")
