@@ -28,4 +28,8 @@ Route::middleware(["auth.redirect"])->group(function () {
     Route::post("/peminjaman", [MasterController::class, "createPeminjaman"])->name("createPeminjaman");
     Route::put("/peminjaman", [MasterController::class, "updatePeminjaman"])->name("updatePeminjaman");
     Route::delete("/peminjaman", [MasterController::class, "deletePeminjaman"])->name("deletePeminjaman");
+    Route::get("/dokter", [MasterController::class, "dokter"])->name("dokter");
+    Route::post("/dokter", [MasterController::class, "createDokter"])->name("createDokter");
+    Route::put("/dokter", [MasterController::class, "updateDokter"])->name("updateDokter");
+    Route::delete("/dokter", [MasterController::class, "deleteDokter"])->name("deleteDokter");
 });

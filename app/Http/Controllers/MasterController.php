@@ -93,7 +93,8 @@ class MasterController extends Controller
                 "tanggal_lahir" => $request->tanggal_lahir,
                 "jenis_kelamin" => $request->jenis_kelamin,
                 "alamat" => $request->alamat,
-                "nomor_kontak" => $request->nomor_kontak
+                "nomor_kontak" => $request->nomor_kontak,
+                "author" => $this->current()->username
             ]);
         return back();
     }
@@ -145,7 +146,8 @@ class MasterController extends Controller
                 "keterangan" => $request->keterangan,
                 "tanggal_peminjaman" => $timestampNow,
                 "batas_pengembalian" => $request->keperluan == "Rawat Inap" ? $timestampTomorrowNext : $timestampTomorrow,
-                "reminder" => 0
+                "reminder" => 0,
+                "author" => $this->current()->username
             ]);
         return back();
     }
@@ -162,6 +164,51 @@ class MasterController extends Controller
 
     public function deletePeminjaman(Request $request) {
         DB::table("peminjaman")
+            ->where("id", $request->id)
+            ->delete();
+        return back();
+    }
+
+    public function dokter() {
+        $current = $this->current();
+        $dokterData = DB::table("dokter")->get();
+        return view("dokter", compact("current", "dokterData"));
+    }
+
+    public function createDokter(Request $request) {
+        $dokterData = DB::table("dokter")
+                        ->where("nip", $request->nip)
+                        ->get();
+        if (count($dokterData) === 0) {
+            DB::table("dokter")
+                ->insert([
+                    "nama" => $request->nama,
+                    "nip" => $request->nip,
+                    "tempat_lahir" => $request->tempat_lahir,
+                    "tanggal_lahir" => $request->tanggal_lahir,
+                    "jenis_kelamin" => $request->jenis_kelamin,
+                    "alamat" => $request->alamat
+                ]);
+        }
+        return back();
+    }
+
+    public function updateDokter(Request $request) {
+        DB::table("dokter")
+            ->where("id", $request->id)
+            ->update([
+                "nama" => $request->nama,
+                "nip" => $request->nip,
+                "tempat_lahir" => $request->tempat_lahir,
+                "tanggal_lahir" => $request->tanggal_lahir,
+                "jenis_kelamin" => $request->jenis_kelamin,
+                "alamat" => $request->alamat
+            ]);
+        return back();
+    }
+
+    public function deleteDokter(Request $request) {
+        DB::table("dokter")
             ->where("id", $request->id)
             ->delete();
         return back();

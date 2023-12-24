@@ -32,6 +32,11 @@
                             Peminjaman
                         </li>
                     </a>
+                    <a href="{{route("dokter")}}">
+                        <li class="hover:bg-green-600 {{request()->route()->getName() === "dokter" ? "bg-green-600" : ""}} px-4 py-2 text-lg">
+                            Dokter
+                        </li>
+                    </a>
                 </ul>
                 <ul class="absolute bottom-0 w-full">
                     <a href="{{route("logout")}}">
