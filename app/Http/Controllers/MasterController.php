@@ -32,14 +32,25 @@ class MasterController extends Controller
 
     function current() {
         return $this->toObject([
-            "nama" => Session::get("nama")[0],
-            "username" => Session::get("username")[0],
-            "role" => Session::get("role")[0]
+            "nama" => Session::get("nama"),
+            "username" => Session::get("username"),
+            "role" => Session::get("role"),
+            "notificationIcon" => Session::get("notificationIcon") ?? null,
+            "notificationMessage" => Session::get("notificationMessage") ?? null
         ]);
     }
 
+    function setNotification($icon, $message) {
+        Session::flash("notificationIcon", $icon);
+        Session::flash("notificationMessage", $message);
+    }
+
     public function login() {
-        return view("login");
+        $current = $this->toObject([
+            "notificationIcon" => Session::get("notificationIcon") ?? null,
+            "notificationMessage" => Session::get("notificationMessage") ?? null
+        ]);
+        return view("login", compact("current"));
     }
 
     public function authenticate(Request $request){
@@ -52,16 +63,21 @@ class MasterController extends Controller
             Session::flush();
             return back();
         } else {
-            Session::push("isLogin", true);
-            Session::push("nama", $users[0]->nama);
-            Session::push("username", $users[0]->username);
-            Session::push("role", $users[0]->role);
+            Session::put("isLogin", true);
+            Session::put("nama", $users[0]->nama);
+            Session::put("username", $users[0]->username);
+            Session::put("role", $users[0]->role);
             return redirect()->route("dashboard");
         }
     }
 
     public function logout() {
-        Session::flush();
+        Session::forget("isLogin");
+        Session::forget("nama");
+        Session::forget("username");
+        Session::forget("role");
+        Session::flash("notificationIcon", Session::get("notificationIcon"));
+        Session::flash("notificationMessage", Session::get("notificationMessage"));
         return redirect()->route("login");
     }
 
@@ -87,17 +103,25 @@ class MasterController extends Controller
     }
 
     public function createRekamMedis(Request $request) {
-        DB::table("rekam_medis")
-            ->insert([
-                "nama_pasien" => $request->nama_pasien,
-                "nik" => $request->nik,
-                "tempat_lahir" => $request->tempat_lahir,
-                "tanggal_lahir" => $request->tanggal_lahir,
-                "jenis_kelamin" => $request->jenis_kelamin,
-                "alamat" => $request->alamat,
-                "nomor_kontak" => $request->nomor_kontak,
-                "author" => $this->current()->username
-            ]);
+        $rekamMedisData = DB::table("rekam_medis")
+                            ->where("nik", $request->nik)
+                            ->get();
+        if (count($rekamMedisData) == 0) {
+            DB::table("rekam_medis")
+                ->insert([
+                    "nama_pasien" => $request->nama_pasien,
+                    "nik" => $request->nik,
+                    "tempat_lahir" => $request->tempat_lahir,
+                    "tanggal_lahir" => $request->tanggal_lahir,
+                    "jenis_kelamin" => $request->jenis_kelamin,
+                    "alamat" => $request->alamat,
+                    "nomor_kontak" => $request->nomor_kontak,
+                    "author" => $this->current()->username
+                ]);
+            $this->setNotification("success", "Tambah rekam medis berhasil");
+        } else {
+            $this->setNotification("info", "NIK sudah digunakan");
+        }
         return back();
     }
 
@@ -113,6 +137,7 @@ class MasterController extends Controller
                 "alamat" => $request->alamat,
                 "nomor_kontak" => $request->nomor_kontak
             ]);
+        $this->setNotification("success", "Edit rekam medis berhasil");
         return back();
     }
 
@@ -120,6 +145,7 @@ class MasterController extends Controller
         DB::table("rekam_medis")
             ->where("id", $request->id)
             ->delete();
+        $this->setNotification("success", "Hapus rekam medis berhasil");
         return back();
     }
 
@@ -146,6 +172,7 @@ class MasterController extends Controller
                 "resep" => $request->resep,
                 "tanggal" => $request->tanggal
             ]);
+        $this->setNotification("success", "Tambah checkup berhasil");
         return back();
     }
 
@@ -159,6 +186,7 @@ class MasterController extends Controller
                 "resep" => $request->resep,
                 "tanggal" => $request->tanggal
             ]);
+        $this->setNotification("success", "Edit checkup berhasil");
         return back();
     }
 
@@ -166,6 +194,7 @@ class MasterController extends Controller
         DB::table("checkup")
             ->where("id", $request->id)
             ->delete();
+        $this->setNotification("success", "Hapus checkup berhasil");
         return back();
     }
 
@@ -197,6 +226,7 @@ class MasterController extends Controller
                 "reminder" => 0,
                 "author" => $this->current()->username
             ]);
+        $this->setNotification("success", "Tambah peminjaman berhasil");
         return back();
     }
 
@@ -207,6 +237,7 @@ class MasterController extends Controller
             ->update([
                 "tanggal_pengembalian" => $timestampNow
             ]);
+        $this->setNotification("success", "Edit peminjaman berhasil");
         return back();
     }
 
@@ -214,6 +245,7 @@ class MasterController extends Controller
         DB::table("peminjaman")
             ->where("id", $request->id)
             ->delete();
+        $this->setNotification("success", "Hapus peminjaman berhasil");
         return back();
     }
 
@@ -227,7 +259,7 @@ class MasterController extends Controller
         $dokterData = DB::table("dokter")
                         ->where("nip", $request->nip)
                         ->get();
-        if (count($dokterData) === 0) {
+        if (count($dokterData) == 0) {
             DB::table("dokter")
                 ->insert([
                     "nama" => $request->nama,
@@ -237,6 +269,9 @@ class MasterController extends Controller
                     "jenis_kelamin" => $request->jenis_kelamin,
                     "alamat" => $request->alamat
                 ]);
+            $this->setNotification("success", "Tambah dokter berhasil");
+        } else {
+            $this->setNotification("info", "NIP sudah digunakan");
         }
         return back();
     }
@@ -252,6 +287,7 @@ class MasterController extends Controller
                 "jenis_kelamin" => $request->jenis_kelamin,
                 "alamat" => $request->alamat
             ]);
+        $this->setNotification("success", "Edit dokter berhasil");
         return back();
     }
 
@@ -259,6 +295,7 @@ class MasterController extends Controller
         DB::table("dokter")
             ->where("id", $request->id)
             ->delete();
+        $this->setNotification("success", "Hapus dokter berhasil");
         return back();
     }
 
@@ -274,7 +311,7 @@ class MasterController extends Controller
         $petugasData = DB::table("users")
                         ->where("username", $request->username)
                         ->get();
-        if (count($petugasData) === 0) {
+        if (count($petugasData) == 0) {
             DB::table("users")
                 ->insert([
                     "nama" => $request->nama,
@@ -282,6 +319,9 @@ class MasterController extends Controller
                     "role" => "Petugas RM",
                     "password" => "simpepe"
                 ]);
+            $this->setNotification("success", "Tambah petugas berhasil");
+        } else {
+            $this->setNotification("info", "Username sudah digunakan");
         }
         return back();
     }
@@ -294,6 +334,7 @@ class MasterController extends Controller
                 "username" => $request->username,
                 "role" => "Petugas RM"
             ]);
+        $this->setNotification("success", "Edit petugas berhasil");
         return back();
     }
 
@@ -301,6 +342,7 @@ class MasterController extends Controller
         DB::table("users")
             ->where("id", $request->id)
             ->delete();
+        $this->setNotification("success", "Hapus petugas berhasil");
         return back();
     }
 
@@ -310,8 +352,10 @@ class MasterController extends Controller
                         ->where("password", $request->password)
                         ->get();
         if (count($usersData) == 0) {
+            $this->setNotification("info", "Password lama salah");
             return back();
         } else if ($request->new_password != $request->renew_password) {
+            $this->setNotification("info", "Password baru tidak sama");
             return back();
         } else {
             DB::table("users")
@@ -319,6 +363,7 @@ class MasterController extends Controller
                 ->update([
                     "password" => $request->new_password
                 ]);
+            $this->setNotification("success", "Ganti password berhasil");
             return redirect()->route("logout");
         }
     }

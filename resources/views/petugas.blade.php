@@ -110,7 +110,7 @@
         console.log(data.id)
         document.getElementById("edit_id").value = data.id
         document.getElementsByName("nama")[1].value = data.nama
-        document.getElementsByName("username")[1].value = data.username
+        document.getElementsByName("username")[2].value = data.username
         document.getElementById("editModal").classList.add("block")
         document.getElementById("editModal").classList.remove("hidden")
     }

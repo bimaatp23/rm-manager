@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield("title", "Admin Dashboard")</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield("style")
 </head>
 
-<body class="font-sans">
+<body class="font-sans" onload="notificationAlert('{{$current->notificationIcon}}', '{{$current->notificationMessage}}')">
     <div id="changePasswordModal" class="hidden fixed inset-0 overflow-auto bg-black bg-opacity-40 p-16">
         <div class="bg-white mx-auto my-5 p-4 border border-gray-300 w-96 rounded">
             <form action="{{route("changePassword")}}" method="post">
@@ -104,6 +105,17 @@
         function closeChangePasswordModal() {
             document.getElementById("changePasswordModal").classList.remove("block")
             document.getElementById("changePasswordModal").classList.add("hidden")
+        }
+
+        function notificationAlert(notificationIcon, notificationMessage) {
+            if (notificationIcon != "" && notificationMessage != "") {
+                Swal.fire({
+                    title: notificationMessage,
+                    icon: notificationIcon,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
         }
     </script>
 </body>

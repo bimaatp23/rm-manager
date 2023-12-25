@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body class="font-sans">
+<body class="font-sans" onload="notificationAlert('{{$current->notificationIcon}}', '{{$current->notificationMessage}}')">
     <div class="flex bg-green-500 items-center justify-center h-screen">
         <div class="flex w-full">
             <div class="flex-1 bg-green-500 text-white p-8">
@@ -36,6 +37,18 @@
             </div>
         </div>
     </div>
+    <script>
+        function notificationAlert(notificationIcon, notificationMessage) {
+            if (notificationIcon != "" && notificationMessage != "") {
+                Swal.fire({
+                    title: notificationMessage,
+                    icon: notificationIcon,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        }
+    </script>
 </body>
 
 </html>

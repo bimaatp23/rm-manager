@@ -16,7 +16,7 @@ class RekamMedis extends Migration
         Schema::create('rekam_medis', function (Blueprint $table) {
             $table->id();
             $table->string('nama_pasien');
-            $table->string('nik');
+            $table->string('nik')->unique();
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->integer('jenis_kelamin');
