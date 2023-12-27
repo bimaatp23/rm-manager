@@ -7,7 +7,28 @@
     <title>@yield("title", "Admin Dashboard")</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @yield("style")
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // Function to call the reminder API
+        function callReminderApi() {
+            $.ajax({
+                url: "/api/reminder",
+                type: "POST",
+                success: function (response) {
+                    console.log(response.message);
+                },
+                error: function (error) {
+                    console.error("Error calling API:", error);
+                }
+            });
+        }
+
+        // Call the API in after load
+        callReminderApi()
+
+        // Call the API every minute
+        setInterval(callReminderApi, 60 * 1000);
+    </script>
 </head>
 
 <body class="font-sans" onload="notificationAlert('{{$current->notificationIcon}}', '{{$current->notificationMessage}}')">

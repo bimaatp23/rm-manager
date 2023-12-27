@@ -214,6 +214,10 @@ class MasterController extends Controller
         $timestampNow = date("Y-m-d H:i:s");
         $timestampTomorrow = date("Y-m-d H:i:s", strtotime("+1 day"));
         $timestampTomorrowNext = date("Y-m-d H:i:s", strtotime("+2 days"));
+        // * Harap Dihapus Pada Saat Imple
+        $timestampTomorrow = date("Y-m-d H:i:s", strtotime("+5 minutes"));
+        $timestampTomorrowNext = date("Y-m-d H:i:s", strtotime("+10 minutes"));
+        // Sampai Sini Ya Hapusnya
         DB::table("peminjaman")
             ->insert([
                 "id_rekam_medis" => $request->id_rekam_medis,
